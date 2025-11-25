@@ -8,10 +8,17 @@
                 <mat-form-field appearance="fill" class="full-width">
                     <mat-label>Nome Completo</mat-label>
                     <input matInput formControlName="fullName" placeholder="Digite seu nome completo">
+                    <mat-error *ngIf="form.get('fullName')?.errors?.['required']">O nome completo é
+                        obrigatório</mat-error>
+                    <mat-error *ngIf="form.get('fullName')?.errors?.['minlength']">O nome tem menos de
+                        3letras</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="full-width">
                     <mat-label>Email</mat-label>
                     <input matInput formControlName="email" placeholder="Digite seu e-mail">
+                    <mat-error *ngIf="form.get('email')?.errors?.['required']">O cadastro do email é
+                        obrigatório</mat-error>
+                    <mat-error *ngIf="form.get('email')?.errors?.['email']">Este email é inválido</mat-error>
                 </mat-form-field>
                 <input-password-field [control]="passwordControl"></input-password-field>
             </form>
