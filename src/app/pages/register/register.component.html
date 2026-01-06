@@ -7,7 +7,7 @@
             <form [formGroup]="form">
                 <mat-form-field appearance="fill" class="full-width">
                     <mat-label>Nome Completo</mat-label>
-                    <input matInput formControlName="fullName" placeholder="Digite seu nome completo">
+                    <input matInput formControlName="nome" placeholder="Digite seu nome completo">
                     @if (fullNameErros){
                     <mat-error>{{fullNameErros}}</mat-error>
                 }
