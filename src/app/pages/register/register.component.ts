@@ -7,6 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { UserService } from '../../services/user.service';
 import { PasswordFieldComponent } from "../../shared/components/password-field/password-field.component";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 
 @Component({
@@ -18,6 +21,7 @@ import { PasswordFieldComponent } from "../../shared/components/password-field/p
     MatInputModule, MatSelectModule,
     PasswordFieldComponent,
     ReactiveFormsModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -25,8 +29,13 @@ import { PasswordFieldComponent } from "../../shared/components/password-field/p
 })
 export class RegisterComponent {
   form: FormGroup;
+  isloading = false;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private router: Router
+  ) {
     this.form = this.formBuilder.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -61,13 +70,17 @@ export class RegisterComponent {
 
     const formData = this.form.value;
 
-    this.userService.register(formData).subscribe({
-      next: (response) => {
-        console.log(`usuario registrado com sucesso`, response);
-      },
-      error: (error) => {
-        console.error(`Erro ao registrar usuário`, error)
-      }
-    })
+    this.isloading = true;
+
+    this.userService.register(formData)
+      .pipe(finalize(() => this.isloading = false))
+      .subscribe({
+        next: (response) => {
+          this.router.navigate(['/login'])
+        },
+        error: (error) => {
+          console.error(`Erro ao registrar usuário`, error)
+        }
+      })
   }
 }
