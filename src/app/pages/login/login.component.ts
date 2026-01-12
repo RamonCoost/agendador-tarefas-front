@@ -46,7 +46,7 @@ export class LoginComponent {
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/tasks'])
-     }
+    }
   }
 
   get passwordControl(): FormControl {
@@ -75,6 +75,11 @@ export class LoginComponent {
       .subscribe({
         next: (response) => {
           this.authService.saveToken(response)
+          this.userService.getUserByEmail(response).subscribe({
+            next: (user) => {
+              this.authService.saveUser(user)
+            }
+          })
           this.router.navigate(['/tasks'])
         },
         error: (error) => {
