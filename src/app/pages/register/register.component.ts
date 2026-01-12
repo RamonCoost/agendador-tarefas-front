@@ -10,6 +10,7 @@ import { PasswordFieldComponent } from "../../shared/components/password-field/p
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -34,7 +35,9 @@ export class RegisterComponent {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private authService: AuthService,
+    private router: Router,
+
   ) {
     this.form = this.formBuilder.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
@@ -43,6 +46,11 @@ export class RegisterComponent {
     });
   }
 
+  ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/tasks'])
+    }
+  }
   get passwordControl(): FormControl {
     return this.form.get('senha') as FormControl;
   }
