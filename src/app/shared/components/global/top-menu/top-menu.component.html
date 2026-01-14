@@ -20,8 +20,8 @@
     @if (estaLogado) {
     <div mat-card-avatar [matMenuTriggerFor]="menu" class="avatar-usuario">{{pegarInicialUsuario()}}</div>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item>Meus Dados</button>
-        <button mat-menu-item (click)="logout()" >Sair</button>
+        <button mat-menu-item routerLink="/user-data">Meus Dados</button>
+        <button mat-menu-item (click)="logout()">Sair</button>
     </mat-menu>
     }
 </mat-toolbar>

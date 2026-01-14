@@ -55,9 +55,7 @@ export class TopMenuComponent implements OnInit, OnDestroy {
     if(user && user.nome){
       return user.nome.charAt(0).toUpperCase();
     }
-
-    return '?'
-
+    return '?';
   }
 
   logout(): void {
