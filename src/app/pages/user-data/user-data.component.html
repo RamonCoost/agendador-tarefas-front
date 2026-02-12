@@ -18,12 +18,19 @@
         <mat-list>
             @for (endereco of user()?.enderecos ?? []; track endereco.id) {
             <div class="item-wrapper">
-                <div class="item-tex">
-                    <mat-list-item>
-                        {{endereco.cep}}
+                <div class="item-text">
+                    <mat-list-item [matTooltip]="`
+                    ${endereco.rua},
+                    ${endereco.numero},
+                    ${endereco.complemento ? `${endereco.complemento},`: ''}
+                    ${endereco.cidade},
+                    ${endereco.estado},
+                    ${endereco.cep}`"
+                    [matTooltipPosition]="'above'"
+                    >
                         {{endereco.rua}}, {{endereco.numero}}
                         @if(endereco.complemento){<span>{{endereco.complemento}}</span>}
-                        {{endereco.cidade}}, {{endereco.estado}},
+                        {{endereco.cidade}}, {{endereco.estado}}, {{endereco.cep}}
                     </mat-list-item>
                 </div>
                 <div class="item-action">
@@ -41,9 +48,9 @@
 
         <h3>Telefones</h3>
         <mat-list>
-            @for (telefone of user()?.telefone ?? []; track $index ) {
+            @for (telefone of user()?.telefones ?? []; track $index ) {
             <div class="item-wrapper">
-                <div class="item-tex">
+                <div class="item-text">
                     <mat-list-item>{{telefone.ddd}} {{telefone.numero}}</mat-list-item>
                 </div>
                 <div class="item-action">
