@@ -3,20 +3,20 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
-  MatDialog,
   MatDialogActions,
-  MatDialogClose,
   MatDialogContent,
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface DialogField {
   name: string;
   label: string;
   value?: string | number;
+  button?: { icon: string, callback: (value: string, dialogRef: MatDialogRef<ModalDialogComponent>) => void };
   type?: string;
   validators?: any[]
 }
@@ -29,6 +29,7 @@ interface DialogData {
 @Component({
   selector: 'app-modal-dialog',
   imports: [
+    MatIconModule,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
@@ -62,7 +63,7 @@ export class ModalDialogComponent {
 
   onSave() {
     this.dialogRef.close(this.form.value)
-   }
+  }
 
   OnCancel(): void {
     this.dialogRef.close();

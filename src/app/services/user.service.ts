@@ -34,7 +34,7 @@ export interface UserResponse {
     estado: string,
     cep: string
   }[] | null,
-  telefone: {
+  telefones: {
     id: number,
     numero: string,
     ddd: string
@@ -90,6 +90,10 @@ export class UserService {
     }
   }
 
+  getEnderecoByCep(cep: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/usuario/endereco/${cep}`)
+  }
+
   saveEndereco(body: {
     rua: string,
     numero: number,
@@ -119,7 +123,7 @@ export class UserService {
   }, token: string): Observable<any> {
     const headers = new HttpHeaders({ Authorization: `${token}` });
 
-    return this.http.post<UserResponse>(`${this.apiUrl}/usuario/endereco?id=${id}`, body, { headers }).pipe(
+    return this.http.put<UserResponse>(`${this.apiUrl}/usuario/endereco?id=${id}`, body, { headers }).pipe(
       switchMap(() => this.getUserByEmail(token)),
       tap(user => {
         this.setUser(user)
